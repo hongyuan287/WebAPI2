@@ -492,7 +492,7 @@
             取得單一商品
             </summary>
             <param name="id">商品編號</param>
-            <returns></returns>
+            <returns></returns>        
         </member>
         <member name="M:WebAPI2.Controllers.ProductsController.PutProduct(System.Int32,WebAPI2.Models.Product)">
             <summary>
@@ -514,6 +514,13 @@
             刪除指定商品編號
             </summary>
             <param name="id">商品編號</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI2.Controllers.ProductsController.ProductExists(System.Int32)">
+            <summary>
+            OK
+            </summary>
+            <param name="id">The ID</param>
             <returns></returns>
         </member>
     </members>

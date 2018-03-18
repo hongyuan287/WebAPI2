@@ -25,6 +25,7 @@ namespace WebAPI2.Controllers
         /// 取得所有商品
         /// </summary>
         /// <returns></returns>
+        [Route("prod")]
         public IQueryable<Product> GetProduct()
         {
             return db.Product.OrderByDescending(p=>p.ProductId).Take(10);
@@ -34,7 +35,8 @@ namespace WebAPI2.Controllers
         /// 取得單一商品
         /// </summary>
         /// <param name="id">商品編號</param>
-        /// <returns></returns>
+        /// <returns></returns>        
+        [Route("prod/{id}")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -45,6 +47,18 @@ namespace WebAPI2.Controllers
             }
 
             return Ok(product);
+        }
+
+        [Route("prod/{id:int}/orderlines")]
+        public IHttpActionResult GetProductOrderLines(int id)
+        {
+            Product product = db.Product.Include("OrderLine").FirstOrDefault(p=> p.ProductId == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product.OrderLine.ToList());
         }
 
         /// <summary>
@@ -126,6 +140,16 @@ namespace WebAPI2.Controllers
             return Ok(product);
         }
 
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="id">The ID</param>
+        /// <returns></returns>
+        private bool ProductExists(int id)
+        {
+            return db.Product.Count(e => e.ProductId == id) > 0;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -135,9 +159,6 @@ namespace WebAPI2.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ProductExists(int id)
-        {
-            return db.Product.Count(e => e.ProductId == id) > 0;
-        }
+        
     }
 }

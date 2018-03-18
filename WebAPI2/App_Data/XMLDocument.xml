@@ -523,6 +523,13 @@
             <param name="id">The ID</param>
             <returns></returns>
         </member>
+        <member name="M:WebAPI2.Controllers.ProductsController.PostA(System.String)">
+            <summary>
+            PostMan : Post - http://localhost:7409/products/FromBodyTest
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:WebAPI2.Controllers.ProductsController.GetA(WebAPI2.Controllers.GeoPoint)" -->
     </members>
 </doc>

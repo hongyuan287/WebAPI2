@@ -9,9 +9,11 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI2.Models;
+using System.Web.Http.Cors;
 
 namespace WebAPI2.Controllers
 {
+    [EnableCors("http://localhost:25536,http://www.example.com", "*","GET,POST,PUT")]
     [RoutePrefix("products")]
     public class ProductsController : ApiController
     {

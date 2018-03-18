@@ -523,5 +523,6 @@
             <param name="id">The ID</param>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:WebAPI2.Controllers.ProductsController.GetA(WebAPI2.Controllers.GeoPoint)" -->
     </members>
 </doc>

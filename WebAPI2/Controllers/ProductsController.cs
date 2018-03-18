@@ -39,15 +39,26 @@ namespace WebAPI2.Controllers
         /// <returns></returns>        
         [Route("{id}",Name = "GetProductById")]
         [ResponseType(typeof(Product))]
-        public IHttpActionResult GetProduct(int id)
+        //public IHttpActionResult GetProduct(int id)
+        public HttpResponseMessage GetProduct(int id)
         {
             Product product = db.Product.Find(id);
             if (product == null)
             {
-                return NotFound();
+                //return NotFound();
+                //return new HttpResponseMessage()
+                //{
+                //    StatusCode = HttpStatusCode.NotFound                    
+                //};
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            return Ok(product);
+            //return Ok(product);
+            return new HttpResponseMessage()
+            {
+                ReasonPhrase = "I CAN",
+                Content = new ObjectContent<Product>(product, GlobalConfiguration.Configuration.Formatters.JsonFormatter)
+            };
         }
 
         [Route("{id:int}/orderlines")]
@@ -164,6 +175,38 @@ namespace WebAPI2.Controllers
             base.Dispose(disposing);
         }
 
-        
+        /// <summary>
+        /// PostMan : Post - http://localhost:7409/products/FromBodyTest
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [Route("FromBodyTest")]
+        public IHttpActionResult PostA([FromBody]string name)
+        {
+            return Ok(name);
+        }
+
+        /// <summary>
+        /// PostMan : Get - http://localhost:7409/products/FromUriTest?Latitude=47.678558&Longitude=-122.130989
+        /// </summary>
+        /// <param name="geo"></param>
+        /// <returns></returns>
+        [Route("FromUriTest")]
+        public IHttpActionResult GetA([FromUri]GeoPoint geo)
+        {            
+            return Ok(geo);
+            //回傳的內容
+            //{
+            //    "Latitude": 47.678558,
+            //    "Longitude": -122.130989
+            //}
+        }
+
+    }
+
+    public class GeoPoint
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

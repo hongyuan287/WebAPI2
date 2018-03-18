@@ -12,6 +12,7 @@ using WebAPI2.Models;
 
 namespace WebAPI2.Controllers
 {
+    [RoutePrefix("products")]
     public class ProductsController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
@@ -25,7 +26,7 @@ namespace WebAPI2.Controllers
         /// 取得所有商品
         /// </summary>
         /// <returns></returns>
-        [Route("prod")]
+        [Route("")]
         public IQueryable<Product> GetProduct()
         {
             return db.Product.OrderByDescending(p=>p.ProductId).Take(10);
@@ -36,7 +37,7 @@ namespace WebAPI2.Controllers
         /// </summary>
         /// <param name="id">商品編號</param>
         /// <returns></returns>        
-        [Route("prod/{id}")]
+        [Route("{id}",Name = "GetProductById")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -49,7 +50,7 @@ namespace WebAPI2.Controllers
             return Ok(product);
         }
 
-        [Route("prod/{id:int}/orderlines")]
+        [Route("{id:int}/orderlines")]
         public IHttpActionResult GetProductOrderLines(int id)
         {
             Product product = db.Product.Include("OrderLine").FirstOrDefault(p=> p.ProductId == id);
@@ -67,6 +68,7 @@ namespace WebAPI2.Controllers
         /// <param name="id">商品編號</param>
         /// <param name="product"></param>
         /// <returns></returns>
+        [Route("{id}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduct(int id, Product product)
         {
@@ -106,6 +108,7 @@ namespace WebAPI2.Controllers
         /// </summary>
         /// <param name="product">商品</param>
         /// <returns></returns>
+        [Route("")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
@@ -117,7 +120,8 @@ namespace WebAPI2.Controllers
             db.Product.Add(product);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
+            //return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
+            return CreatedAtRoute("GetProductById", new { id = product.ProductId }, product);            
         }
 
         /// <summary>
@@ -125,6 +129,7 @@ namespace WebAPI2.Controllers
         /// </summary>
         /// <param name="id">商品編號</param>
         /// <returns></returns>
+        [Route("{id}")]
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {

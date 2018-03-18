@@ -21,13 +21,20 @@ namespace WebAPI2.Controllers
             db.Configuration.LazyLoadingEnabled = false;
         }
 
-        // GET: api/Products
+        /// <summary>
+        /// 取得所有商品
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Product> GetProduct()
         {
             return db.Product.OrderByDescending(p=>p.ProductId).Take(10);
         }
 
-        // GET: api/Products/5
+        /// <summary>
+        /// 取得單一商品
+        /// </summary>
+        /// <param name="id">商品編號</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -40,7 +47,12 @@ namespace WebAPI2.Controllers
             return Ok(product);
         }
 
-        // PUT: api/Products/5
+        /// <summary>
+        ///  修改指定商品編號的內容
+        /// </summary>
+        /// <param name="id">商品編號</param>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduct(int id, Product product)
         {
@@ -75,7 +87,11 @@ namespace WebAPI2.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Products
+        /// <summary>
+        /// 新增一筆商品
+        /// </summary>
+        /// <param name="product">商品</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
@@ -90,7 +106,11 @@ namespace WebAPI2.Controllers
             return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
         }
 
-        // DELETE: api/Products/5
+        /// <summary>
+        /// 刪除指定商品編號
+        /// </summary>
+        /// <param name="id">商品編號</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {
